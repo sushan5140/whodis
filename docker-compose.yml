@@ -1,0 +1,14 @@
+services:
+  whodis-api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      WHODIS_CORS_ORIGINS: "http://localhost:8080"
+      WHODIS_FACE_MODEL: "ArcFace"
+      WHODIS_DETECTOR: "retinaface"
+      WHODIS_DISTANCE_METRIC: "cosine"
+    volumes:
+      - ./backend/data:/app/data

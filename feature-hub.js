@@ -19,6 +19,7 @@
       if (!feature?.id || !feature?.label || typeof feature.run !== 'function') return;
       features.set(feature.id, feature);
       renderActions();
+      renderEventLauncher();
     },
     get(id) { return features.get(id); },
     list() { return [...features.values()]; },
@@ -78,7 +79,7 @@
     const style = document.createElement('style');
     style.id='wd-feature-styles';
     style.textContent=`
-      .wd-next{grid-column:1/-1;margin-top:4px;padding:18px;border:1px solid #2a2a30;border-radius:18px;background:linear-gradient(135deg,#101012,#17171b)}
+      .wd-next{grid-column:1/-1;margin-top:4px;padding:18px;border:1px solid #2a2a30;border-radius:18px;background:linear-gradient(135deg,#101012,#17171b)}.wd-event-launcher{margin-top:14px;padding:24px}
       .wd-next-head{display:flex;justify-content:space-between;gap:14px;align-items:end;margin-bottom:14px}.wd-next-head h3{margin:4px 0 0;font-size:22px;letter-spacing:-.03em}.wd-next-head p{margin:0;color:#777;font-size:12px}
       .wd-actions{display:flex;gap:8px;flex-wrap:wrap}.wd-action{border:1px solid #34343b;background:#1c1c20;color:#f4f4f5;border-radius:999px;padding:10px 13px;font-size:12px;font-weight:800;transition:.18s}.wd-action:hover{transform:translateY(-1px);border-color:#5a5a63}.wd-action.master{background:#f4f4f5;color:#0a0a0b}
       .wd-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);z-index:1000;display:none;place-items:center;padding:18px}.wd-modal.open{display:grid}.wd-sheet{width:min(720px,100%);max-height:86vh;overflow:auto;border:1px solid #303037;background:#101012;border-radius:26px;padding:22px;box-shadow:0 30px 120px rgba(0,0,0,.55)}.wd-sheet-head{display:flex;justify-content:space-between;gap:14px;align-items:start}.wd-sheet-head h2{margin:4px 0 0;font-size:34px;letter-spacing:-.04em}.wd-close{border:1px solid #303037;background:#18181b;color:#aaa;border-radius:12px;padding:9px 12px}.wd-output{margin-top:20px}.wd-card{border:1px solid #28282e;background:#151518;border-radius:18px;padding:16px;margin-top:10px}.wd-card b{display:block;margin-bottom:7px}.wd-card p{margin:0;color:#b3b3bb;line-height:1.55}.wd-kicker{font-size:10px;letter-spacing:.18em;color:#777;font-weight:900}.wd-muted,.wd-loading{color:#85858e;line-height:1.55}.wd-score{font-size:42px;font-weight:900;letter-spacing:-.05em}.wd-input{width:100%;background:#0d0d0f;border:1px solid #303037;color:#eee;border-radius:12px;padding:12px;margin-top:8px}.wd-mini-btn{margin-top:10px;border:1px solid #3a3a41;background:#eee;color:#111;border-radius:12px;padding:10px 13px;font-weight:800}
@@ -100,6 +101,23 @@
     return modal;
   }
 
+  function renderEventLauncher() {
+    ensureStyles();
+    const eventFeatures=[...features.values()].filter(f=>f.scope==='event').sort((a,b)=>(a.order||99)-(b.order||99));
+    if(!eventFeatures.length) return;
+    let launcher=document.getElementById('wdEventLauncher');
+    if(!launcher){
+      launcher=document.createElement('section');
+      launcher.id='wdEventLauncher';
+      launcher.className='panel wd-event-launcher';
+      const anchor=document.querySelector('.profile-builder');
+      anchor?.parentNode?.insertBefore(launcher,anchor);
+    }
+    if(!launcher) return;
+    launcher.innerHTML=`<div class="wd-next-head"><div><div class="wd-kicker">EVENT INTEL</div><h3>walk into the room with a plan.</h3></div><p>public agenda / speaker / booth context</p></div><div class="wd-actions">${eventFeatures.map(f=>`<button class="wd-action" data-wd-event-feature="${escapeHtml(f.id)}">${escapeHtml(f.label)}</button>`).join('')}</div>`;
+    launcher.querySelectorAll('[data-wd-event-feature]').forEach(btn=>btn.onclick=()=>api.open(btn.dataset.wdEventFeature));
+  }
+
   function renderActions() {
     ensureStyles();
     const panel=document.getElementById('resultPanel');
@@ -119,6 +137,8 @@
   const observer=new MutationObserver(()=>renderActions());
   const panel=document.getElementById('resultPanel');
   if(panel) observer.observe(panel,{childList:true,subtree:true});
+
+  renderEventLauncher();
 
   featureFiles.forEach(src=>{
     const script=document.createElement('script');

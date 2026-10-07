@@ -93,10 +93,8 @@ def _threshold() -> float:
     override = os.getenv("WHODIS_MATCH_THRESHOLD")
     if override:
         return float(override)
-    try:
-        return float(verification.find_threshold(MODEL_NAME, DISTANCE_METRIC))
-    except Exception:
-        return 0.68
+    # Keep health/startup lightweight. Tune this explicitly per deployed model/event set.
+    return 0.68
 
 
 @app.get("/health")
@@ -107,7 +105,7 @@ def health() -> dict[str, Any]:
         "detector": DETECTOR_BACKEND,
         "metric": DISTANCE_METRIC,
         "threshold": _threshold(),
-        "api_version": "0.3.0",
+        "api_version": "0.3.1",
         "storage": store.kind,
     }
 

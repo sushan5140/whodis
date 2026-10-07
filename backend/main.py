@@ -9,16 +9,16 @@ from typing import Any
 
 import numpy as np
 from deepface import DeepFace
+from deepface.modules import verification
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from deepface.modules import verification
 
 MODEL_NAME = os.getenv("WHODIS_FACE_MODEL", "ArcFace")
 DETECTOR_BACKEND = os.getenv("WHODIS_DETECTOR", "retinaface")
 DISTANCE_METRIC = os.getenv("WHODIS_DISTANCE_METRIC", "cosine")
 DATA_FILE = Path(os.getenv("WHODIS_FACE_DB", "data/enrollments.json"))
 
-app = FastAPI(title="whodis face service", version="0.1.0")
+app = FastAPI(title="whodis face service", version="0.2.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in os.getenv("WHODIS_CORS_ORIGINS", "http://localhost:8080").split(",") if origin.strip()],
@@ -48,9 +48,27 @@ def _write_db(db: dict[str, Any]) -> None:
         tmp.replace(DATA_FILE)
 
 
+def _split_csv(value: str) -> list[str]:
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def _public_profile(attendee_id: str, record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "attendee_id": attendee_id,
+        "code": attendee_id,
+        "name": record.get("display_name", attendee_id),
+        "initials": record.get("initials", "?"),
+        "role": record.get("role", "Event attendee"),
+        "org": record.get("org", "whodis event"),
+        "interests": record.get("interests", []),
+        "goals": record.get("goals", []),
+        "projects": record.get("projects", []),
+        "links": record.get("links", ["Event profile"]),
+    }
+
+
 def _embedding_from_bytes(raw: bytes) -> list[float]:
-    suffix = ".jpg"
-    with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as f:
+    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as f:
         f.write(raw)
         f.flush()
         try:
@@ -89,7 +107,6 @@ def _threshold() -> float:
     try:
         return float(verification.find_threshold(MODEL_NAME, DISTANCE_METRIC))
     except Exception:
-        # Conservative fallback; tune on your own consented event validation set.
         return 0.68
 
 
@@ -101,6 +118,7 @@ def health() -> dict[str, Any]:
         "detector": DETECTOR_BACKEND,
         "metric": DISTANCE_METRIC,
         "threshold": _threshold(),
+        "api_version": "0.2.0",
     }
 
 
@@ -108,14 +126,21 @@ def health() -> dict[str, Any]:
 def list_attendees(event_id: str) -> dict[str, Any]:
     db = _read_db()
     people = db.get(event_id, {})
-    return {
-        "event_id": event_id,
-        "count": len(people),
-        "attendees": [
-            {"attendee_id": attendee_id, "display_name": record.get("display_name", attendee_id)}
-            for attendee_id, record in people.items()
-        ],
-    }
+    profiles = [
+        _public_profile(attendee_id, record)
+        for attendee_id, record in people.items()
+        if record.get("consent")
+    ]
+    return {"event_id": event_id, "count": len(profiles), "attendees": profiles}
+
+
+@app.get("/events/{event_id}/attendees/{attendee_id}")
+def get_attendee(event_id: str, attendee_id: str) -> dict[str, Any]:
+    db = _read_db()
+    record = db.get(event_id, {}).get(attendee_id)
+    if not record or not record.get("consent"):
+        raise HTTPException(status_code=404, detail="Attendee not found in this event.")
+    return {"event_id": event_id, "profile": _public_profile(attendee_id, record)}
 
 
 @app.post("/events/{event_id}/enroll")
@@ -123,6 +148,13 @@ async def enroll(
     event_id: str,
     attendee_id: str = Form(...),
     display_name: str = Form(...),
+    role: str = Form("Event attendee"),
+    org: str = Form("whodis event"),
+    initials: str = Form("?"),
+    interests: str = Form(""),
+    goals: str = Form(""),
+    projects: str = Form(""),
+    links: str = Form("Event profile"),
     consent: bool = Form(...),
     photo: UploadFile = File(...),
 ) -> dict[str, Any]:
@@ -136,18 +168,25 @@ async def enroll(
     embedding = _embedding_from_bytes(raw)
     db = _read_db()
     event = db.setdefault(event_id, {})
-    event[attendee_id] = {
+    record = {
         "display_name": display_name.strip() or attendee_id,
+        "role": role.strip() or "Event attendee",
+        "org": org.strip() or "whodis event",
+        "initials": initials.strip()[:4] or "?",
+        "interests": _split_csv(interests),
+        "goals": _split_csv(goals),
+        "projects": _split_csv(projects),
+        "links": _split_csv(links) or ["Event profile"],
         "embedding": embedding,
         "consent": True,
     }
+    event[attendee_id] = record
     _write_db(db)
 
     return {
         "ok": True,
         "event_id": event_id,
-        "attendee_id": attendee_id,
-        "display_name": event[attendee_id]["display_name"],
+        "profile": _public_profile(attendee_id, record),
     }
 
 
@@ -180,8 +219,10 @@ async def match(event_id: str, photo: UploadFile = File(...)) -> dict[str, Any]:
     for attendee_id, record in event.items():
         if not record.get("consent"):
             continue
-        distance = _cosine_distance(probe, record["embedding"])
-        ranked.append((attendee_id, distance, record))
+        embedding = record.get("embedding")
+        if not embedding:
+            continue
+        ranked.append((attendee_id, _cosine_distance(probe, embedding), record))
 
     if not ranked:
         raise HTTPException(status_code=404, detail="No consented attendees available.")
@@ -194,8 +235,7 @@ async def match(event_id: str, photo: UploadFile = File(...)) -> dict[str, Any]:
     return {
         "matched": matched,
         "event_id": event_id,
-        "attendee_id": attendee_id if matched else None,
-        "display_name": record.get("display_name") if matched else None,
+        "profile": _public_profile(attendee_id, record) if matched else None,
         "distance": round(distance, 6),
         "threshold": threshold,
         "candidate_count": len(ranked),

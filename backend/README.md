@@ -67,3 +67,15 @@ Deletes both the event profile and its stored embedding.
 - Threshold is sourced from DeepFace when available; set `WHODIS_MATCH_THRESHOLD` to tune it on your own consented event validation set.
 - The JSON store is still prototype-only. Production should move this data to authenticated, encrypted storage with event permissions and durable revoke/audit controls.
 - Before commercial deployment, verify the license terms of the exact pretrained weights you ship. Open-source wrapper code and pretrained model weights can have different licenses.
+
+## Supabase storage
+
+The backend automatically uses Supabase when both `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are present. Otherwise it falls back to the JSON store for local development.
+
+1. Create a dedicated Supabase project for whodis.
+2. Run `supabase/schema.sql` in that project.
+3. Copy `backend/.env.example` to your local secret environment configuration.
+4. Set the two Supabase variables on the backend deployment only.
+5. Never put the service-role key in `index.html`, `app.js`, or any public environment variable.
+
+The database table has RLS enabled and direct access is revoked from `anon` and `authenticated`; only the trusted backend service role can access raw face embeddings.

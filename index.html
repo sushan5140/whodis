@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>whodis.</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="logo">?</div><div><strong>whodis.</strong><span>people, but with context.</span></div></div>
+      <div class="privacy-pill">Opt-in only</div>
+    </header>
+
+    <main>
+      <section class="hero panel">
+        <div>
+          <div class="eyebrow">CONFERENCE MODE</div>
+          <h1>Point. Scan. Know <em>why</em> you should talk.</h1>
+          <p>Scan a badge or profile QR from an opted-in attendee. whodis finds shared interests, likely collaboration angles, and a natural conversation opener.</p>
+          <div class="actions">
+            <button id="openScanner" class="primary">Scan a badge</button>
+            <button id="openDirectory" class="secondary">Browse demo directory</button>
+          </div>
+        </div>
+        <div class="demo-card glow">
+          <div class="mini-camera"><div class="scanline"></div><span>SCAN</span></div>
+          <div class="mini-profile">
+            <div class="avatar">MK</div>
+            <div><b>Minjun Kim</b><small>AI Research Intern</small></div>
+          </div>
+          <div class="match-chip">92% useful overlap</div>
+          <div class="reason">Multimodal RAG × retrieval reliability</div>
+        </div>
+      </section>
+
+      <section class="grid three">
+        <article class="panel feature"><span>01</span><h3>Identity, consensually</h3><p>Profiles are discoverable only when attendees opt in and share their event badge/QR.</p></article>
+        <article class="panel feature"><span>02</span><h3>Overlap engine</h3><p>Compare interests, skills, projects and collaboration goals instead of dumping profile data.</p></article>
+        <article class="panel feature"><span>03</span><h3>Conversation assist</h3><p>Get one sharp opener based on the strongest shared context—not generic icebreakers.</p></article>
+      </section>
+
+      <section id="workspace" class="workspace hidden">
+        <div class="panel scan-panel">
+          <div class="section-head"><div><div class="eyebrow">STEP 1</div><h2>Scan attendee</h2></div><button id="closeWorkspace" class="ghost">Close</button></div>
+          <div class="scanner-box">
+            <video id="video" playsinline></video>
+            <div class="scanner-frame"><i></i><i></i><i></i><i></i></div>
+            <div class="scan-status" id="scanStatus">Camera off</div>
+          </div>
+          <div class="scan-actions">
+            <button id="startCamera" class="primary">Start camera</button>
+            <button id="stopCamera" class="secondary">Stop</button>
+          </div>
+          <div class="or">or enter a demo badge code</div>
+          <div class="code-row"><input id="badgeCode" placeholder="Try WD-MINJUN or WD-SORA"/><button id="findBadge" class="secondary">Find</button></div>
+          <p class="tiny">QR reading uses the browser's BarcodeDetector when available. Demo codes work everywhere.</p>
+        </div>
+
+        <div class="panel result-panel" id="resultPanel">
+          <div class="empty-state"><div class="empty-icon">◎</div><h3>No attendee selected</h3><p>Scan an opted-in badge to generate a networking brief.</p></div>
+        </div>
+      </section>
+
+      <section id="directory" class="panel hidden directory">
+        <div class="section-head"><div><div class="eyebrow">DEMO DIRECTORY</div><h2>Opted-in attendees</h2></div><button id="closeDirectory" class="ghost">Close</button></div>
+        <div id="directoryGrid" class="directory-grid"></div>
+      </section>
+
+      <section class="panel profile-builder">
+        <div class="section-head"><div><div class="eyebrow">YOUR PROFILE</div><h2>tell whodis what you're looking for</h2></div><div class="saved" id="savedStatus">Saved locally</div></div>
+        <div class="form-grid">
+          <label>Name<input id="meName" value="Arjun" /></label>
+          <label>Role / goal<input id="meRole" value="AI / CS student & builder" /></label>
+          <label class="wide">Interests<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research" /></label>
+          <label class="wide">What I want<input id="meGoals" value="research collaborators, mentors, startup builders" /></label>
+        </div>
+        <button id="saveMe" class="secondary">Update my profile</button>
+      </section>
+    </main>
+
+    <footer>whodis. · people, but with context. · opt-in only</footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

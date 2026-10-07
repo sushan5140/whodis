@@ -191,3 +191,21 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
   if(a==='memory'){document.querySelector('#profile')?.scrollIntoView({behavior:'smooth'})}
  }));
 })();
+
+
+/* V9.1 continuation interactions */
+(() => {
+  const moments=[
+    'Catch Minjun after the vision session — context will be fresh.',
+    'Sora is easiest to approach before the creator panel gets crowded.',
+    'Daniel is strongest right after the agent systems talk.'
+  ];
+  document.querySelectorAll('[data-intel-person]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const i=Number(btn.dataset.intelPerson);
+      const copy=document.getElementById('momentCopy');
+      if(copy) copy.textContent=moments[i] || moments[0];
+      document.querySelectorAll('[data-intel-person]').forEach(x=>x.classList.toggle('selected',x===btn));
+    });
+  });
+})();

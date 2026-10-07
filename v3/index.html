@@ -86,8 +86,13 @@
               </div>
             </div>
 
-            <div class="hero-v2-right" aria-label="WhoDis social preview">
-              <div class="poster-card poster-main">
+            <div class="hero-v2-right" aria-label="WhoDis social preview" data-interactive-stage>
+              <div class="demo-switcher" role="group" aria-label="Preview different WhoDis matches">
+                <button type="button" class="demo-dot active" data-demo="0" aria-label="Preview Minjun"></button>
+                <button type="button" class="demo-dot" data-demo="1" aria-label="Preview Sana"></button>
+                <button type="button" class="demo-dot" data-demo="2" aria-label="Preview Dev"></button>
+              </div>
+              <button type="button" class="poster-card poster-main" data-demo-card="profile" aria-label="Open match context preview">
                 <div class="poster-meta"><span>01</span><span>LIVE MATCH</span></div>
                 <div class="poster-person">MK</div>
                 <div class="poster-score">92%</div>
@@ -95,18 +100,18 @@
                   <small>MINJUN KIM · KAIST VISION LAB</small>
                   <h3>retrieval reliability<br>is your overlap.</h3>
                 </div>
-              </div>
+              </button>
 
-              <div class="poster-card poster-note">
+              <button type="button" class="poster-card poster-note" data-demo-card="opener">
                 <span>BEST OPENER</span>
                 <p>“What part of visual retrieval breaks first when the data gets messy?”</p>
-              </div>
+              </button>
 
-              <div class="poster-card poster-value">
+              <button type="button" class="poster-card poster-value" data-demo-card="value">
                 <span>YOUR EDGE</span>
                 <p>offer a failure-case audit.</p>
                 <b>door in →</b>
-              </div>
+              </button>
 
               <div class="hero-v2-orbit orbit-one"></div>
               <div class="hero-v2-orbit orbit-two"></div>
@@ -115,21 +120,21 @@
         </section>
 
         <section class="quick-grid" aria-label="What WhoDis does">
-          <article class="quick-card">
+          <button class="quick-card" type="button" data-quick-action="signal">
             <span class="quick-no">01</span>
             <div><h3>Find the signal</h3><p>Less profile dump. More “why should I care?”</p></div>
             <span class="quick-arrow">↗</span>
-          </article>
-          <article class="quick-card">
+          </button>
+          <button class="quick-card" type="button" data-quick-action="move">
             <span class="quick-no">02</span>
             <div><h3>Make the move</h3><p>Openers, value paths, warm paths, timing.</p></div>
             <span class="quick-arrow">↗</span>
-          </article>
-          <article class="quick-card">
+          </button>
+          <button class="quick-card" type="button" data-quick-action="memory">
             <span class="quick-no">03</span>
             <div><h3>Remember the human</h3><p>Keep notes after you actually meet them.</p></div>
             <span class="quick-arrow">↗</span>
-          </article>
+          </button>
         </section>
 
         <section id="workspace" class="workspace hidden">

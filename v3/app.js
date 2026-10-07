@@ -154,3 +154,91 @@ async function startCamera(){
 }
 function stopCamera(){if(scanTimer){clearInterval(scanTimer);scanTimer=null}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('video').srcObject=null;$('faceMatch').disabled=true;$('scanStatus').textContent='Camera off'}
 renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
+
+
+/* V3 interaction layer */
+(() => {
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const demos = [
+    {initials:'MK',score:'92%',name:'MINJUN KIM · KAIST VISION LAB',headline:'retrieval reliability<br>is your overlap.',opener:'“What part of visual retrieval breaks first when the data gets messy?”',value:'offer a failure-case audit.'},
+    {initials:'SP',score:'88%',name:'SANA PARK · PRODUCT DESIGNER',headline:'social product taste<br>is your overlap.',opener:'“What interaction did you remove because it looked good but felt slow?”',value:'show a motion teardown.'},
+    {initials:'DC',score:'84%',name:'DEV CHOI · AI FOUNDER',headline:'agent UX<br>is your overlap.',opener:'“Where do users stop trusting the agent — planning or execution?”',value:'offer a failure-flow prototype.'}
+  ];
+
+  const stage=document.querySelector('[data-interactive-stage]');
+  const dots=[...document.querySelectorAll('[data-demo]')];
+  const main=document.querySelector('.poster-main');
+  const note=document.querySelector('.poster-note');
+  const value=document.querySelector('.poster-value');
+
+  function setDemo(i){
+    const d=demos[i];
+    if(!d || !main || !note || !value) return;
+    main.querySelector('.poster-person').textContent=d.initials;
+    main.querySelector('.poster-score').textContent=d.score;
+    main.querySelector('.poster-copy small').textContent=d.name;
+    main.querySelector('.poster-copy h3').innerHTML=d.headline;
+    note.querySelector('p').textContent=d.opener;
+    value.querySelector('p').textContent=d.value;
+    dots.forEach((dot,idx)=>dot.classList.toggle('active',idx===i));
+    stage?.classList.remove('pulse-once');
+    requestAnimationFrame(()=>stage?.classList.add('pulse-once'));
+  }
+
+  dots.forEach(dot=>dot.addEventListener('click',()=>setDemo(Number(dot.dataset.demo))));
+
+  document.querySelectorAll('[data-demo-card]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const open=card.classList.contains('expanded');
+      document.querySelectorAll('[data-demo-card]').forEach(x=>x.classList.remove('expanded'));
+      if(!open) card.classList.add('expanded');
+    });
+  });
+
+  document.querySelectorAll('[data-quick-action]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const action=card.dataset.quickAction;
+      if(action==='signal'){
+        $('directory').classList.remove('hidden');
+        loadEventDirectory();
+        $('directory').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+      }
+      if(action==='move'){
+        $('workspace').classList.remove('hidden');
+        $('workspace').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+      }
+      if(action==='memory'){
+        const profile=$('profile');
+        profile?.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'});
+        profile?.classList.add('focus-flash');
+        setTimeout(()=>profile?.classList.remove('focus-flash'),700);
+      }
+    });
+  });
+
+  if(stage && !reduceMotion && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    stage.addEventListener('pointermove',e=>{
+      const r=stage.getBoundingClientRect();
+      stage.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5).toFixed(3));
+      stage.style.setProperty('--my',((e.clientY-r.top)/r.height-.5).toFixed(3));
+    });
+    stage.addEventListener('pointerleave',()=>{
+      stage.style.setProperty('--mx','0');
+      stage.style.setProperty('--my','0');
+    });
+  }
+
+  const revealTargets=[...document.querySelectorAll('.quick-grid,.workspace,.directory,.intel-intro,#wdEventLauncher,.profile-builder')];
+  if('IntersectionObserver' in window && !reduceMotion){
+    revealTargets.forEach(el=>el.classList.add('reveal-ready'));
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.12});
+    revealTargets.forEach(el=>io.observe(el));
+  }
+})();

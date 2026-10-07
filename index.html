@@ -18,9 +18,9 @@
         <div>
           <div class="eyebrow">CONFERENCE MODE</div>
           <h1>Point. Scan. Know <em>why</em> you should talk.</h1>
-          <p>Scan a badge or profile QR from an opted-in attendee. whodis finds shared interests, likely collaboration angles, and a natural conversation opener.</p>
+          <p>Match only against attendees who explicitly enrolled in the event, then surface shared context, collaboration angles, and a natural opener.</p>
           <div class="actions">
-            <button id="openScanner" class="primary">Scan a badge</button>
+            <button id="openScanner" class="primary">Scan attendee</button>
             <button id="openDirectory" class="secondary">Browse demo directory</button>
           </div>
         </div>
@@ -36,7 +36,7 @@
       </section>
 
       <section class="grid three">
-        <article class="panel feature"><span>01</span><h3>Identity, consensually</h3><p>Profiles are discoverable only when attendees opt in and share their event badge/QR.</p></article>
+        <article class="panel feature"><span>01</span><h3>Identity, consensually</h3><p>Face matching is event-scoped and limited to attendees who explicitly enrolled.</p></article>
         <article class="panel feature"><span>02</span><h3>Overlap engine</h3><p>Compare interests, skills, projects and collaboration goals instead of dumping profile data.</p></article>
         <article class="panel feature"><span>03</span><h3>Conversation assist</h3><p>Get one sharp opener based on the strongest shared context—not generic icebreakers.</p></article>
       </section>
@@ -46,20 +46,28 @@
           <div class="section-head"><div><div class="eyebrow">STEP 1</div><h2>Scan attendee</h2></div><button id="closeWorkspace" class="ghost">Close</button></div>
           <div class="scanner-box">
             <video id="video" playsinline></video>
+            <canvas id="captureCanvas" class="hidden"></canvas>
             <div class="scanner-frame"><i></i><i></i><i></i><i></i></div>
             <div class="scan-status" id="scanStatus">Camera off</div>
           </div>
           <div class="scan-actions">
             <button id="startCamera" class="primary">Start camera</button>
+            <button id="faceMatch" class="secondary" disabled>Who dis?</button>
             <button id="stopCamera" class="secondary">Stop</button>
           </div>
+
+          <div class="face-config">
+            <label>Event ID<input id="eventId" value="demo-event" /></label>
+            <label>Face API<input id="faceApi" value="http://localhost:8000" /></label>
+          </div>
+
           <div class="or">or enter a demo badge code</div>
           <div class="code-row"><input id="badgeCode" placeholder="Try WD-MINJUN or WD-SORA"/><button id="findBadge" class="secondary">Find</button></div>
-          <p class="tiny">QR reading uses the browser's BarcodeDetector when available. Demo codes work everywhere.</p>
+          <p class="tiny">Face matching sends one captured frame to the configured event API and compares it only against consented attendees in that event. QR/badge fallback still works.</p>
         </div>
 
         <div class="panel result-panel" id="resultPanel">
-          <div class="empty-state"><div class="empty-icon">◎</div><h3>No attendee selected</h3><p>Scan an opted-in badge to generate a networking brief.</p></div>
+          <div class="empty-state"><div class="empty-icon">◎</div><h3>No attendee selected</h3><p>Scan an opted-in attendee to generate a networking brief.</p></div>
         </div>
       </section>
 

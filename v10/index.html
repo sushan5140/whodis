@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#f5f2eb"/>
+<meta name="description" content="WhoDis — people, but with context."/>
+<title>whodis. v10 — social lens</title>
+<link rel="stylesheet" href="../styles.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css?v=100"/>
+</head>
+<body>
+<div class="app">
+  <header class="site-header">
+    <a href="#home" class="logo">whodis.<sup>10</sup></a>
+    <nav class="desktop-nav">
+      <a href="#home" class="active">Home</a>
+      <button id="railPeople" type="button">People</button>
+      <a href="#room-lens">Intel</a>
+      <a href="#profile">You</a>
+    </nav>
+    <div class="header-right">
+      <span class="live"><i></i> conference mode</span>
+      <button id="railScan" class="scan-small" type="button">Scan</button>
+      <button class="avatar-button" onclick="document.querySelector('#profile').scrollIntoView({behavior:'smooth'})">A</button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="product-label">People, but with context.</span>
+        <h1>Know who to meet<br/>before the moment passes.</h1>
+        <p>WhoDis turns an opted-in attendee into the only things you actually need: why they matter, what to say, what you can offer, and when to move.</p>
+        <div class="hero-actions">
+          <button id="openScanner" class="primary">Scan someone <span>↗</span></button>
+          <button id="openDirectory" class="secondary">Browse the room</button>
+        </div>
+        <div class="privacy">Public or opted-in context only. No private scraping.</div>
+      </div>
+
+      <div class="room-panel">
+        <div class="panel-head">
+          <div><span>Live room</span><b>3 people worth your time</b></div>
+          <span class="room-count">128 opted in</span>
+        </div>
+        <div class="person-list">
+          <button class="person-row active"><span class="avatar mk">MK</span><div><b>Minjun Kim</b><small>KAIST Vision Lab</small></div><em>92</em></button>
+          <button class="person-row"><span class="avatar sp">SP</span><div><b>Sora Park</b><small>Seoul AI Collective</small></div><em>88</em></button>
+          <button class="person-row"><span class="avatar dc">DC</span><div><b>Daniel Chen</b><small>NUS Computing</small></div><em>84</em></button>
+        </div>
+        <div class="match-detail">
+          <div class="match-title"><div><span>Best match right now</span><h2>Minjun Kim</h2><p>KAIST Vision Lab</p></div><strong>92%</strong></div>
+          <div class="context-grid">
+            <div><span>Why</span><p>You both care about retrieval reliability.</p></div>
+            <div><span>Say</span><p>Ask what breaks first when visual retrieval gets messy.</p></div>
+            <div><span>Offer</span><p>Offer a short failure-case audit.</p></div>
+            <div><span>When</span><p>After the vision session.</p></div>
+          </div>
+          <button class="open-person" data-open-demo>Open full match <span>↗</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="lens-story">
+      <aside class="lens-nav">
+        <span class="lens-eyebrow">One person. Full context.</span>
+        <button class="active" data-lens-step="who"><i>01</i><b>Who</b></button>
+        <button data-lens-step="why"><i>02</i><b>Why</b></button>
+        <button data-lens-step="say"><i>03</i><b>Say</b></button>
+        <button data-lens-step="offer"><i>04</i><b>Offer</b></button>
+        <button data-lens-step="when"><i>05</i><b>When</b></button>
+        <button data-lens-step="remember"><i>06</i><b>Remember</b></button>
+      </aside>
+
+      <div class="lens-track">
+        <div class="sticky-person">
+          <div class="sticky-head"><span>In focus</span><strong>92%</strong></div>
+          <div class="sticky-identity"><span>MK</span><div><h2>Minjun Kim</h2><p>KAIST Vision Lab</p></div></div>
+
+          <div class="sticky-panel active" data-lens-panel="who"><small>Who</small><p>AI research intern working on vision + retrieval systems.</p></div>
+          <div class="sticky-panel" data-lens-panel="why"><small>Why</small><p>You both care about retrieval reliability, but from different angles.</p></div>
+          <div class="sticky-panel" data-lens-panel="say"><small>Say</small><p>“What breaks first when visual retrieval gets messy?”</p></div>
+          <div class="sticky-panel" data-lens-panel="offer"><small>Offer</small><p>Send a short failure-case audit tonight.</p></div>
+          <div class="sticky-panel" data-lens-panel="when"><small>When</small><p>Right after the vision session — context will still be fresh.</p></div>
+          <div class="sticky-panel" data-lens-panel="remember"><small>Remember</small><p>Follow up in 2 days with the audit + one concrete question.</p></div>
+
+          <button class="open-person" data-open-demo>Open full match <span>↗</span></button>
+        </div>
+
+        <div class="story-sections">
+          <section data-lens-section="who"><span>01</span><h3>First: who is actually worth your attention?</h3><p>Not a profile dump. Just enough identity + relevance to decide if this person deserves your next ten minutes.</p></section>
+          <section data-lens-section="why"><span>02</span><h3>Then: why should you care?</h3><p>WhoDis collapses the noise into one useful overlap, so the reason to talk feels obvious.</p></section>
+          <section data-lens-section="say"><span>03</span><h3>Now give me the opener.</h3><p>No generic “what do you do?” — one specific question tied to what they actually work on.</p></section>
+          <section data-lens-section="offer"><span>04</span><h3>What can I bring to this?</h3><p>A conversation lands better when you arrive with value, not just curiosity.</p></section>
+          <section data-lens-section="when"><span>05</span><h3>Timing is part of the move.</h3><p>The right person at the wrong moment is still the wrong move.</p></section>
+          <section data-lens-section="remember"><span>06</span><h3>Don’t let the room erase the relationship.</h3><p>Keep the useful thread after the event instead of collecting another dead contact.</p></section>
+        </div>
+      </div>
+    </section>
+
+    <section id="room-lens" class="room-lens">
+      <div class="room-copy">
+        <span class="section-kicker">Zoom out</span>
+        <h2>One person becomes the whole room.</h2>
+        <p>The same lens that explains one person now ranks sessions, people, and moments across the event.</p>
+      </div>
+
+      <div class="room-live">
+        <div class="agenda-mini">
+          <div class="mini-head"><span>Today</span><small>AI Summit 2026</small></div>
+          <div><b>09:00</b><span>Opening keynote</span></div>
+          <div class="active"><b>10:30</b><span>Vision & multimodal</span><i>now</i></div>
+          <div><b>12:00</b><span>Founder lunch</span></div>
+          <div><b>14:00</b><span>Applied AI</span></div>
+        </div>
+
+        <div class="people-mini">
+          <div class="mini-head"><span>Who next?</span><small>ranked for you</small></div>
+          <button class="active" data-room-person="0"><span class="avatar mk">MK</span><div><b>Minjun Kim</b><small>KAIST Vision Lab</small></div><em>92</em></button>
+          <button data-room-person="1"><span class="avatar sp">SP</span><div><b>Sora Park</b><small>Seoul AI Collective</small></div><em>88</em></button>
+          <button data-room-person="2"><span class="avatar dc">DC</span><div><b>Daniel Chen</b><small>NUS Computing</small></div><em>84</em></button>
+        </div>
+
+        <div class="room-moment"><span>Best move right now</span><p id="roomMoment">Minjun after the vision session. Best overlap + clean opener.</p></div>
+      </div>
+    </section>
+
+    <section id="workspace" class="workspace hidden">
+      <div class="workspace-head"><div><span class="section-kicker">Scan</span><h2>Who’s in front of you?</h2></div><button id="closeWorkspace" class="icon-button">×</button></div>
+      <div class="workspace-grid">
+        <div class="scan-panel">
+          <div class="scanner-box"><video id="video" playsinline></video><canvas id="captureCanvas" class="hidden"></canvas><div class="scanner-frame"><i></i><i></i><i></i><i></i></div><div class="scan-status" id="scanStatus">camera off</div></div>
+          <div class="scan-actions"><button id="startCamera" class="cta cta-primary">Start camera</button><button id="faceMatch" class="cta cta-soft" disabled>Who dis?</button><button id="stopCamera" class="cta cta-ghost">Stop</button></div>
+          <details class="scanner-details"><summary>Scanner setup</summary><div class="face-config"><label>Event ID<input id="eventId" value="demo-event"/></label><label>Face API<input id="faceApi" value="https://whodis-api.onrender.com"/></label></div></details>
+          <div class="badge-fallback"><span>No camera? Use a demo badge.</span><div class="code-row"><input id="badgeCode" placeholder="WD-MINJUN"/><button id="findBadge" class="mini-action">Find</button></div></div>
+          <p class="tiny">Matching is limited to consented attendees in the selected event.</p>
+        </div>
+        <div class="result-panel" id="resultPanel"><div class="empty-state"><div class="empty-radar"><span></span></div><p class="section-kicker">Waiting for signal</p><h3>No one selected yet.</h3><p>Scan an opted-in attendee and WhoDis turns the match into context + a next move.</p></div></div>
+      </div>
+    </section>
+
+    <section id="directory" class="directory hidden">
+      <div class="workspace-head"><div><span class="section-kicker">People</span><h2>The room, ranked.</h2><p>Opted-in attendees only.</p></div><button id="closeDirectory" class="icon-button">×</button></div>
+      <div id="directoryGrid" class="directory-grid"></div>
+    </section>
+
+    <section id="profile" class="profile-builder">
+      <div class="profile-copy"><span class="section-kicker">Your signal</span><h2>Teach WhoDis what matters to you.</h2><p>This stays in your browser in the current MVP.</p><div class="saved" id="savedStatus">saved locally</div></div>
+      <div class="profile-form"><div class="form-grid"><label>Name<input id="meName" value="Arjun"/></label><label>Role / goal<input id="meRole" value="AI / CS student & builder"/></label><label class="wide">Interests<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/></label><label class="wide">What I want<input id="meGoals" value="research collaborators, mentors, startup builders"/></label></div><button id="saveMe" class="cta cta-primary">Update my signal</button></div>
+    </section>
+  </main>
+
+  <footer><span>whodis.</span><p>people, but with context.</p><span>2026</span></footer>
+
+  <nav class="mobile-nav">
+    <a class="mobile-nav-item active" href="#home">Home</a>
+    <button class="mobile-nav-item" id="mobilePeople">People</button>
+    <button class="mobile-scan" id="mobileScan">Scan</button>
+    <a class="mobile-nav-item" href="#room-lens">Intel</a>
+    <a class="mobile-nav-item" href="#profile">You</a>
+  </nav>
+</div>
+
+<div hidden aria-hidden="true">
+<button id="openJoin"></button><section id="joinPanel"><button id="closeJoin"></button>
+<input id="joinFaceApi"/><input id="joinEventId"/><input id="joinName"/><input id="joinRole"/><input id="joinInterests"/><input id="joinGoals"/><input id="joinProjects"/>
+<input id="joinPhoto" type="file"/><input id="joinConsent" type="checkbox"/><button id="enrollBtn"></button>
+<span id="joinStatus"></span><span id="joinAvatar"></span><span id="joinPreviewName"></span><span id="joinPreviewRole"></span><span id="joinPreviewTags"></span>
+</section></div>
+
+<script src="app.js?v=100"></script>
+<script src="feature-hub.js?v=100"></script>
+</body></html>

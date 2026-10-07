@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="styles.css?v=93"/>
+<link rel="stylesheet" href="styles.css?v=94"/>
 </head>
 <body>
 <div class="app">
@@ -171,9 +171,32 @@
       </div>
     </section>
 
-    <section id="profile" class="profile-builder">
-      <div class="profile-copy"><span class="section-kicker">Your signal</span><h2>Teach WhoDis what matters to you.</h2><p>This stays in your browser in the current MVP.</p><div class="saved" id="savedStatus">saved locally</div></div>
-      <div class="profile-form"><div class="form-grid"><label>Name<input id="meName" value="Arjun"/></label><label>Role / goal<input id="meRole" value="AI / CS student & builder"/></label><label class="wide">Interests<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/></label><label class="wide">What I want<input id="meGoals" value="research collaborators, mentors, startup builders"/></label></div><button id="saveMe" class="cta cta-primary">Update my signal</button></div>
+    <section id="profile" class="profile-builder signal-profile">
+      <div class="profile-copy">
+        <span class="section-kicker">Your signal</span>
+        <h2>What should WhoDis notice for you?</h2>
+        <p>Your signal shapes who gets surfaced, what overlap matters, and which conversations are worth your time.</p>
+        <div class="signal-meta">
+          <span class="saved" id="savedStatus">saved locally</span>
+          <span class="signal-note">private to this browser</span>
+        </div>
+      </div>
+
+      <div class="profile-form signal-form">
+        <div class="signal-preview">
+          <div class="signal-avatar">A</div>
+          <div><small>Current signal</small><strong id="signalPreviewName">Arjun · AI / CS student & builder</strong></div>
+          <span>edit below</span>
+        </div>
+
+        <div class="form-grid">
+          <label>Name<input id="meName" value="Arjun"/></label>
+          <label>Role / goal<input id="meRole" value="AI / CS student & builder"/></label>
+          <label class="wide">Interests<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/></label>
+          <label class="wide">What I want<input id="meGoals" value="research collaborators, mentors, startup builders"/></label>
+        </div>
+        <button id="saveMe" class="cta cta-primary signal-save">Update my signal <span>↗</span></button>
+      </div>
     </section>
   </main>
 

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#090a08"/>
+<meta name="description" content="WhoDis — IRL social intelligence for high-agency networking."/>
+<title>whodis. v6 — hustle mode</title>
+<link rel="stylesheet" href="../styles.css"/>
+<link rel="stylesheet" href="styles.css?v=60"/>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail" aria-label="Primary navigation">
+    <a class="rail-brand" href="#home"><span class="brand-mark">W</span><span class="brand-word">whodis.<i>v6</i></span></a>
+    <nav class="rail-nav">
+      <a class="rail-link active" href="#home"><span>01</span><b>HQ</b></a>
+      <button class="rail-link" id="railScan" type="button"><span>02</span><b>SCAN</b></button>
+      <button class="rail-link" id="railPeople" type="button"><span>03</span><b>ROOM</b></button>
+      <a class="rail-link" href="#wdEventLauncher"><span>04</span><b>INTEL</b></a>
+      <a class="rail-link" href="#profile"><span>05</span><b>YOU</b></a>
+    </nav>
+    <div class="rail-foot"><i></i><span>LIVE</span></div>
+  </aside>
+
+  <div class="main-column">
+    <header class="topbar">
+      <a class="mobile-brand" href="#home"><span class="brand-mark">W</span><span class="brand-word">whodis.<i>v6</i></span></a>
+      <div class="ticker"><span>CONFERENCE MODE</span><b>•</b><span>OPT-IN DATA ONLY</span><b>•</b><span>ROOM SIGNAL ACTIVE</span></div>
+      <button class="avatar-button" type="button" onclick="document.querySelector('#profile').scrollIntoView({behavior:'smooth'})">A</button>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-top">
+          <span>IRL SOCIAL INTELLIGENCE / 2026</span>
+          <span class="live-chip"><i></i> LIVE ROOM</span>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">YOU DON'T NEED MORE CONTACTS. YOU NEED THE RIGHT MOVE.</p>
+            <h1>WORK<br/>THE<br/><em>ROOM.</em></h1>
+            <p class="hero-sub">Scan an opted-in attendee. WhoDis tells you why they matter, what to say, what you can offer, and whether this is worth your next ten minutes.</p>
+            <div class="hero-actions">
+              <button id="openScanner" class="action-primary" type="button">SCAN TARGET <span>↗</span></button>
+              <button id="openDirectory" class="action-secondary" type="button">OPEN ROOM INDEX</button>
+            </div>
+            <div class="proof-strip"><span>NO PRIVATE SCRAPING</span><span>CONTEXT &gt; CLOUT</span><span>MOVE &gt; PROFILE</span></div>
+          </div>
+
+          <div class="war-room">
+            <div class="war-head"><span>ROOM // SIGNAL MAP</span><span>3 HIGH-VALUE MATCHES</span></div>
+            <div class="radar-stage" aria-label="Live room signal map">
+              <div class="radar-ring r1"></div><div class="radar-ring r2"></div><div class="radar-ring r3"></div>
+              <div class="radar-cross x"></div><div class="radar-cross y"></div>
+              <div class="radar-sweep"></div>
+              <button class="target target-a active" type="button" data-target="0"><span>MK</span><b>92</b></button>
+              <button class="target target-b" type="button" data-target="1"><span>SP</span><b>88</b></button>
+              <button class="target target-c" type="button" data-target="2"><span>DC</span><b>84</b></button>
+              <div class="you-dot">YOU</div>
+            </div>
+
+            <div class="target-panel">
+              <div class="target-rank"><span>PRIORITY TARGET</span><b id="targetScore">92%</b></div>
+              <div class="target-title"><small id="targetName">MINJUN KIM // KAIST VISION LAB</small><h2 id="targetReason">Retrieval reliability is your overlap.</h2></div>
+              <div class="target-grid">
+                <button class="intel-cell active" data-intel="move" type="button"><span>NEXT MOVE</span><p id="intelMove">Ask where visual retrieval fails first when data gets messy.</p></button>
+                <button class="intel-cell" data-intel="leverage" type="button"><span>LEVERAGE</span><p id="intelLeverage">Offer a failure-case audit.</p></button>
+                <button class="intel-cell" data-intel="timing" type="button"><span>TIMING</span><p id="intelTiming">Approach after the vision session.</p></button>
+              </div>
+              <button class="open-match" type="button" data-open-demo>OPEN FULL MATCH <span>↗</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-bar">
+          <div><span>ROOM</span><b>128</b><small>opted-in</small></div>
+          <div><span>HIGH SIGNAL</span><b>09</b><small>for your goals</small></div>
+          <div><span>HOT PATHS</span><b>03</b><small>worth moving on</small></div>
+          <div><span>TIME SAVED</span><b>47m</b><small>profile-skipping</small></div>
+        </div>
+      </section>
+
+      <section class="command-index">
+        <div class="section-head"><span>THE PLAYBOOK</span><span>DO LESS SMALL TALK.</span></div>
+        <button class="command-row" data-quick-action="signal" type="button"><span class="no">01</span><h3>Find the signal.</h3><p>See why this person matters before you burn five minutes.</p><b>↗</b></button>
+        <button class="command-row" data-quick-action="move" type="button"><span class="no">02</span><h3>Make the move.</h3><p>Get the opener, your leverage, timing, and warm path.</p><b>↗</b></button>
+        <button class="command-row" data-quick-action="memory" type="button"><span class="no">03</span><h3>Keep the thread.</h3><p>Remember who mattered after the room gets noisy again.</p><b>↗</b></button>
+      </section>
+
+      <section id="workspace" class="workspace hidden">
+        <div class="workspace-head"><div><span class="section-kicker">02 / SCAN</span><h2>IDENTIFY THE SIGNAL.</h2></div><button id="closeWorkspace" class="icon-button" type="button">×</button></div>
+        <div class="workspace-grid">
+          <div class="scan-panel">
+            <div class="scanner-box"><video id="video" playsinline></video><canvas id="captureCanvas" class="hidden"></canvas><div class="scanner-frame"><i></i><i></i><i></i><i></i></div><div class="scan-status" id="scanStatus">camera off</div></div>
+            <div class="scan-actions"><button id="startCamera" class="cta cta-primary" type="button">START CAMERA</button><button id="faceMatch" class="cta cta-soft" type="button" disabled>WHO DIS?</button><button id="stopCamera" class="cta cta-ghost" type="button">STOP</button></div>
+            <details class="scanner-details"><summary>SCANNER SETUP</summary><div class="face-config"><label>EVENT ID<input id="eventId" value="demo-event"/></label><label>FACE API<input id="faceApi" value="https://whodis-api.onrender.com"/></label></div></details>
+            <div class="badge-fallback"><span>NO CAMERA? USE DEMO BADGE.</span><div class="code-row"><input id="badgeCode" placeholder="WD-MINJUN"/><button id="findBadge" class="mini-action" type="button">FIND</button></div></div>
+            <p class="tiny">Matching is limited to consented attendees in the selected event.</p>
+          </div>
+          <div class="result-panel" id="resultPanel"><div class="empty-state"><div class="empty-radar"><span></span></div><p class="section-kicker">WAITING FOR SIGNAL</p><h3>NO TARGET SELECTED.</h3><p>Scan an opted-in attendee and WhoDis turns the match into context + a next move.</p></div></div>
+        </div>
+      </section>
+
+      <section id="directory" class="directory hidden">
+        <div class="workspace-head"><div><span class="section-kicker">03 / ROOM</span><h2>ROOM INDEX.</h2><p>ranked against your goals.</p></div><button id="closeDirectory" class="icon-button" type="button">×</button></div>
+        <div id="directoryGrid" class="directory-grid"></div>
+      </section>
+
+      <section class="intel-intro">
+        <div><span class="section-kicker">04 / INTEL</span><h2>ENTER WITH<br/>A PLAN.</h2></div>
+        <p>Drop in a public agenda, roster, speaker list or booth list. WhoDis turns the room into a priority queue instead of a blur.</p>
+      </section>
+
+      <section id="profile" class="profile-builder">
+        <div class="profile-copy"><span class="section-kicker">05 / YOU</span><h2>DEFINE YOUR<br/>HUNT.</h2><p>Your signal tells WhoDis what “worth meeting” means to you.</p><div class="saved" id="savedStatus">saved locally</div></div>
+        <div class="profile-form"><div class="form-grid"><label>NAME<input id="meName" value="Arjun"/></label><label>ROLE / GOAL<input id="meRole" value="AI / CS student & builder"/></label><label class="wide">INTERESTS<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/></label><label class="wide">WHAT I WANT<input id="meGoals" value="research collaborators, mentors, startup builders"/></label></div><button id="saveMe" class="cta cta-primary" type="button">UPDATE MY SIGNAL</button></div>
+      </section>
+    </main>
+
+    <footer><span>WHODIS // HUSTLE MODE</span><p>people, but with context.</p><span>2026</span></footer>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a class="mobile-nav-item active" href="#home">HQ</a>
+    <button class="mobile-nav-item" id="mobilePeople" type="button">ROOM</button>
+    <button class="mobile-scan" id="mobileScan" type="button">W</button>
+    <a class="mobile-nav-item" href="#wdEventLauncher">INTEL</a>
+    <a class="mobile-nav-item" href="#profile">YOU</a>
+  </nav>
+</div>
+
+<div hidden aria-hidden="true" id="v6JoinCompat">
+  <button id="openJoin" type="button"></button><section id="joinPanel"><button id="closeJoin" type="button"></button>
+  <input id="joinFaceApi"/><input id="joinEventId"/><input id="joinName"/><input id="joinRole"/><input id="joinInterests"/><input id="joinGoals"/><input id="joinProjects"/>
+  <input id="joinPhoto" type="file"/><input id="joinConsent" type="checkbox"/><button id="enrollBtn" type="button"></button>
+  <span id="joinStatus"></span><span id="joinAvatar"></span><span id="joinPreviewName"></span><span id="joinPreviewRole"></span><span id="joinPreviewTags"></span>
+</section></div>
+
+<script src="app.js?v=60"></script>
+<script src="feature-hub.js?v=60"></script>
+</body></html>

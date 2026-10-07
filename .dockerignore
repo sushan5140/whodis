@@ -1,0 +1,7 @@
+.git
+.gitignore
+backend/.venv
+backend/__pycache__
+backend/data
+*.pyc
+.DS_Store

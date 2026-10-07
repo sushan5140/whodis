@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: whodis-api
+    runtime: docker
+    plan: free
+    region: singapore
+    repo: https://github.com/sushan5140/whodis
+    branch: main
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: WHODIS_CORS_ORIGINS
+        value: https://whodis-sushan5140s-8170s-projects.vercel.app
+      - key: WHODIS_FACE_MODEL
+        value: ArcFace
+      - key: WHODIS_DETECTOR
+        value: retinaface
+      - key: WHODIS_DISTANCE_METRIC
+        value: cosine
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false

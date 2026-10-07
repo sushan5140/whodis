@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="styles.css?v=94"/>
+<link rel="stylesheet" href="styles.css?v=95"/>
 </head>
 <body>
 <div class="app">
@@ -189,11 +189,25 @@
           <span>edit below</span>
         </div>
 
-        <div class="form-grid">
-          <label>Name<input id="meName" value="Arjun"/></label>
-          <label>Role / goal<input id="meRole" value="AI / CS student & builder"/></label>
-          <label class="wide">Interests<input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/></label>
-          <label class="wide">What I want<input id="meGoals" value="research collaborators, mentors, startup builders"/></label>
+        <div class="signal-sheet">
+          <div class="signal-row split">
+            <label>
+              <span>Name</span>
+              <input id="meName" value="Arjun"/>
+            </label>
+            <label>
+              <span>Role / goal</span>
+              <input id="meRole" value="AI / CS student & builder"/>
+            </label>
+          </div>
+          <label class="signal-row full">
+            <span>Interests</span>
+            <input id="meInterests" value="RAG, multimodal AI, computer vision, agents, research"/>
+          </label>
+          <label class="signal-row full">
+            <span>What I want</span>
+            <input id="meGoals" value="research collaborators, mentors, startup builders"/>
+          </label>
         </div>
         <button id="saveMe" class="cta cta-primary signal-save">Update my signal <span>↗</span></button>
       </div>

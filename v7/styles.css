@@ -215,3 +215,60 @@ body{
     font-size:38px!important;
   }
 }
+
+
+/* V7.2 — isolate V7 hero from legacy root stylesheet */
+.hero{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  align-items:initial!important;
+  justify-items:initial!important;
+  gap:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+.hero-labels,
+.hero-grid,
+.hero-stats{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+.hero-grid{
+  display:grid!important;
+  overflow:visible!important;
+}
+.hero-left,
+.signal-board{
+  min-width:0!important;
+  max-width:100%!important;
+}
+.signal-board{
+  position:relative!important;
+  right:auto!important;
+  left:auto!important;
+  transform:none!important;
+}
+.main-column,
+main{
+  min-width:0!important;
+}
+@media(max-width:1400px){
+  .hero-grid{
+    grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)!important;
+    gap:18px!important;
+  }
+  .hero-left h1{
+    font-size:clamp(66px,6.5vw,104px)!important;
+  }
+  .match-reason h2{
+    font-size:clamp(24px,2.2vw,36px)!important;
+  }
+}
+@media(max-width:1180px){
+  .hero-grid{
+    grid-template-columns:1fr!important;
+  }
+}

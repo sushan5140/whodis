@@ -21,6 +21,7 @@
           <p>Match only against attendees who explicitly enrolled in the event, then surface shared context, collaboration angles, and a natural opener.</p>
           <div class="actions">
             <button id="openScanner" class="primary">Scan attendee</button>
+            <button id="openJoin" class="secondary">Join whodis</button>
             <button id="openDirectory" class="secondary">Browse demo directory</button>
           </div>
         </div>
@@ -39,6 +40,46 @@
         <article class="panel feature"><span>01</span><h3>Identity, consensually</h3><p>Face matching is event-scoped and limited to attendees who explicitly enrolled.</p></article>
         <article class="panel feature"><span>02</span><h3>Overlap engine</h3><p>Compare interests, skills, projects and collaboration goals instead of dumping profile data.</p></article>
         <article class="panel feature"><span>03</span><h3>Conversation assist</h3><p>Get one sharp opener based on the strongest shared context—not generic icebreakers.</p></article>
+      </section>
+
+      <section id="joinPanel" class="panel join-panel hidden">
+        <div class="section-head">
+          <div><div class="eyebrow">JOIN THIS EVENT</div><h2>make yourself discoverable</h2></div>
+          <button id="closeJoin" class="ghost">Close</button>
+        </div>
+
+        <div class="join-grid">
+          <div>
+            <div class="form-grid">
+              <label>Event ID<input id="joinEventId" value="demo-event" /></label>
+              <label>Face API<input id="joinFaceApi" value="http://localhost:8000" /></label>
+              <label>Name<input id="joinName" placeholder="Your name" /></label>
+              <label>Role / org<input id="joinRole" placeholder="e.g. ML Engineer · KAIST" /></label>
+              <label class="wide">Interests<input id="joinInterests" placeholder="RAG, agents, computer vision" /></label>
+              <label class="wide">What you want<input id="joinGoals" placeholder="research collaborators, startup builders" /></label>
+              <label class="wide">Projects<input id="joinProjects" placeholder="Project A, Project B" /></label>
+            </div>
+
+            <label class="consent-row">
+              <input id="joinConsent" type="checkbox" />
+              <span>I agree to enroll my face for matching inside this event directory and understand I can revoke it later.</span>
+            </label>
+
+            <div class="join-actions">
+              <label class="upload-btn secondary">Choose selfie<input id="joinPhoto" type="file" accept="image/*" capture="user" hidden /></label>
+              <button id="enrollBtn" class="primary">Join whodis</button>
+            </div>
+            <p class="tiny">Your face is enrolled only into the event-scoped backend you configured here. This UI does not scrape or identify people from the public web.</p>
+          </div>
+
+          <div class="join-preview">
+            <div class="avatar xl" id="joinAvatar">?</div>
+            <h3 id="joinPreviewName">your profile card</h3>
+            <p id="joinPreviewRole">role · org</p>
+            <div id="joinPreviewTags" class="tags"></div>
+            <div id="joinStatus" class="join-status">not enrolled yet</div>
+          </div>
+        </div>
       </section>
 
       <section id="workspace" class="workspace hidden">

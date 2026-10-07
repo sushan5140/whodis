@@ -5,3 +5,4 @@ deepface==0.0.93
 numpy>=1.26,<3
 pillow>=10,<12
 supabase==2.32.0
+tf-keras==2.21.0

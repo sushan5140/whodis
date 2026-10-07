@@ -452,3 +452,126 @@ main{max-width:1460px;margin:0 auto;padding:26px 34px 90px}.hero{display:grid!im
   .intel-canvas{margin-top:56px!important;padding:20px!important}
   #wdEventLauncher{padding:12px 20px 20px!important}
 }
+
+
+/* V9.3 — surgical cleanup only */
+:root{
+  --red:#ef5b43;
+}
+
+/* remove the artificial full-screen dead space under the hero */
+.hero{
+  min-height:auto!important;
+  padding-bottom:30px!important;
+}
+.hero + .continuation{
+  margin-top:14px!important;
+}
+.continuation{
+  margin-top:14px!important;
+}
+
+/* Open full match returns to the hero's neutral action language */
+.open-person{
+  background:var(--ink)!important;
+  border-color:var(--ink)!important;
+  color:white!important;
+}
+.open-person:hover{
+  background:#2a2c2a!important;
+  border-color:#2a2c2a!important;
+}
+
+/* Event Intel stays in the same light product world — no terracotta slab */
+.intel-canvas{
+  margin-top:64px!important;
+  background:#f0ece3!important;
+  color:var(--ink)!important;
+  border:1px solid var(--line)!important;
+  border-radius:22px 22px 0 0!important;
+  box-shadow:none!important;
+}
+.intel-canvas:after{
+  display:none!important;
+}
+.intel-copy .section-kicker{
+  color:#8d8f89!important;
+}
+.intel-copy h2{
+  color:var(--ink)!important;
+}
+.intel-copy p{
+  color:#747770!important;
+}
+.agenda-card,
+.priority-card,
+.moment-card{
+  background:#fbf9f4!important;
+  color:var(--ink)!important;
+  border-color:rgba(23,24,23,.10)!important;
+}
+.mini-head small,
+.agenda-row b,
+.priority-card small,
+.moment-card span{
+  color:#90928d!important;
+}
+.agenda-row{
+  border-top-color:rgba(23,24,23,.08)!important;
+}
+.agenda-row span{
+  color:#5e615c!important;
+}
+.agenda-row.active span{
+  color:var(--ink)!important;
+}
+.agenda-row.active b,
+.priority-card em{
+  color:#b86b55!important;
+}
+.agenda-row.active i{
+  background:#e8ddd6!important;
+  color:#8e5545!important;
+}
+.priority-card button{
+  color:var(--ink)!important;
+  border-top-color:rgba(23,24,23,.08)!important;
+}
+.moment-card p{
+  color:var(--ink)!important;
+}
+.moment-card b{
+  color:#8e5545!important;
+}
+
+/* launcher becomes the same light container instead of a second dark band */
+#wdEventLauncher{
+  margin-top:0!important;
+  background:#f0ece3!important;
+  border:1px solid var(--line)!important;
+  border-top:0!important;
+  border-radius:0 0 22px 22px!important;
+  padding:12px 28px 24px!important;
+}
+#wdEventLauncher .wd-action{
+  background:#fbf9f4!important;
+  color:var(--ink)!important;
+  border:1px solid rgba(23,24,23,.10)!important;
+}
+#wdEventLauncher .wd-action.master{
+  background:var(--ink)!important;
+  color:white!important;
+  border-color:var(--ink)!important;
+}
+#wdEventLauncher .wd-action:hover{
+  background:#f5f1e9!important;
+}
+#wdEventLauncher .wd-action.master:hover{
+  background:#2a2c2a!important;
+}
+
+@media(max-width:900px){
+  .hero{padding-bottom:22px!important}
+  .hero + .continuation{margin-top:10px!important}
+  .intel-canvas{margin-top:48px!important}
+}

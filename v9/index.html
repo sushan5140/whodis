@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="styles.css?v=90"/>
+<link rel="stylesheet" href="styles.css?v=91"/>
 </head>
 <body>
 <div class="app">
@@ -78,10 +78,46 @@
       </div>
     </section>
 
-    <section class="flow">
-      <button data-quick-action="signal"><span>01</span><div><h3>Find the signal</h3><p>See who is actually relevant to you.</p></div><b>↗</b></button>
-      <button data-quick-action="move"><span>02</span><div><h3>Make the move</h3><p>Get an opener, value angle and timing.</p></div><b>↗</b></button>
-      <button data-quick-action="memory"><span>03</span><div><h3>Keep the thread</h3><p>Remember what mattered after you meet.</p></div><b>↗</b></button>
+    <section class="continuation" aria-label="How WhoDis works">
+      <div class="continuation-head">
+        <div>
+          <span class="eyebrow-soft">How WhoDis works</span>
+          <h2>From signal to a real conversation.</h2>
+        </div>
+        <p>Three moves. No profile rabbit hole.</p>
+      </div>
+
+      <div class="live-steps">
+        <button class="live-step active" data-step="signal" data-quick-action="signal" type="button">
+          <span class="step-no">01</span>
+          <div class="step-copy"><h3>Find the signal</h3><p>See who’s actually relevant to you.</p></div>
+          <div class="step-preview signal-preview">
+            <div class="mini-people">
+              <span>MK</span><span>SP</span><span>DC</span>
+            </div>
+            <div class="preview-tags"><i>research</i><i>builders</i><i>+3</i></div>
+          </div>
+          <b>↗</b>
+        </button>
+
+        <button class="live-step" data-step="move" data-quick-action="move" type="button">
+          <span class="step-no">02</span>
+          <div class="step-copy"><h3>Make the move</h3><p>Get the opener, value angle and timing.</p></div>
+          <div class="step-preview move-preview">
+            <span>“What breaks first when visual retrieval gets messy?”</span>
+          </div>
+          <b>↗</b>
+        </button>
+
+        <button class="live-step" data-step="memory" data-quick-action="memory" type="button">
+          <span class="step-no">03</span>
+          <div class="step-copy"><h3>Keep the thread</h3><p>Remember what mattered after you meet.</p></div>
+          <div class="step-preview memory-preview">
+            <span class="done-dot">✓</span><div><strong>Follow up</strong><small>in 2 days</small></div>
+          </div>
+          <b>↗</b>
+        </button>
+      </div>
     </section>
 
     <section id="workspace" class="workspace hidden">
@@ -103,9 +139,36 @@
       <div id="directoryGrid" class="directory-grid"></div>
     </section>
 
-    <section class="intel-intro">
-      <div><span class="section-kicker">Event intel</span><h2>Walk in with a plan.</h2></div>
-      <p>Paste a public agenda, speaker list, booth list or attendee roster. WhoDis ranks what matters to you before you enter the room.</p>
+    <section class="intel-canvas">
+      <div class="intel-copy">
+        <span class="section-kicker">Event intel</span>
+        <h2>Walk in with a plan.</h2>
+        <p>Paste a public agenda, roster or speaker list. WhoDis turns the room into a live priority map around your goals.</p>
+        <div class="intel-actions-copy"><span>room intel</span><span>who should i meet?</span></div>
+      </div>
+
+      <div class="intel-live">
+        <div class="agenda-card">
+          <div class="mini-head"><span>Today</span><small>AI Summit 2026</small></div>
+          <div class="agenda-row"><b>09:00</b><span>Opening keynote</span><i></i></div>
+          <div class="agenda-row active"><b>10:30</b><span>Vision & multimodal</span><i>now</i></div>
+          <div class="agenda-row"><b>12:00</b><span>Founder lunch</span><i></i></div>
+          <div class="agenda-row"><b>14:00</b><span>Applied AI</span><i></i></div>
+        </div>
+
+        <div class="priority-card">
+          <div class="mini-head"><span>People to meet</span><small>ranked for you</small></div>
+          <button type="button" data-intel-person="0"><span class="mini-avatar">MK</span><div><b>Minjun Kim</b><small>KAIST Vision Lab</small></div><em>92%</em></button>
+          <button type="button" data-intel-person="1"><span class="mini-avatar alt">SP</span><div><b>Sora Park</b><small>Seoul AI Collective</small></div><em>88%</em></button>
+          <button type="button" data-intel-person="2"><span class="mini-avatar alt2">DC</span><div><b>Daniel Chen</b><small>NUS Computing</small></div><em>84%</em></button>
+        </div>
+
+        <div class="moment-card" id="momentCard">
+          <span>best move rn</span>
+          <p id="momentCopy">Catch Minjun after the vision session — context will be fresh.</p>
+          <b>↗</b>
+        </div>
+      </div>
     </section>
 
     <section id="profile" class="profile-builder">

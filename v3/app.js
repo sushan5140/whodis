@@ -161,8 +161,8 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const demos = [
     {initials:'MK',score:'92%',name:'MINJUN KIM · KAIST VISION LAB',headline:'retrieval reliability<br>is your overlap.',opener:'“What part of visual retrieval breaks first when the data gets messy?”',value:'offer a failure-case audit.'},
-    {initials:'SP',score:'88%',name:'SANA PARK · PRODUCT DESIGNER',headline:'social product taste<br>is your overlap.',opener:'“What interaction did you remove because it looked good but felt slow?”',value:'show a motion teardown.'},
-    {initials:'DC',score:'84%',name:'DEV CHOI · AI FOUNDER',headline:'agent UX<br>is your overlap.',opener:'“Where do users stop trusting the agent — planning or execution?”',value:'offer a failure-flow prototype.'}
+    {initials:'SP',score:'88%',name:'SORA PARK · SEOUL AI COLLECTIVE',headline:'social product taste<br>is your overlap.',opener:'“What interaction did you remove because it looked good but felt slow?”',value:'show a motion teardown.'},
+    {initials:'DC',score:'84%',name:'DANIEL CHEN · NUS COMPUTING',headline:'agent UX<br>is your overlap.',opener:'“Where do users stop trusting the agent — planning or execution?”',value:'offer a failure-flow prototype.'}
   ];
 
   const stage=document.querySelector('[data-interactive-stage]');
@@ -171,7 +171,11 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
   const note=document.querySelector('.poster-note');
   const value=document.querySelector('.poster-value');
 
+  let currentDemo=0;
+  const demoCodes=['WD-MINJUN','WD-SORA','WD-DANIEL'];
+
   function setDemo(i){
+    currentDemo=i;
     const d=demos[i];
     if(!d || !main || !note || !value) return;
     main.querySelector('.poster-person').textContent=d.initials;
@@ -189,6 +193,11 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
 
   document.querySelectorAll('[data-demo-card]').forEach(card=>{
     card.addEventListener('click',()=>{
+      if(card.dataset.demoCard==='profile'){
+        const person=attendees.find(x=>x.code===demoCodes[currentDemo]);
+        if(person) renderResult(person);
+        return;
+      }
       const open=card.classList.contains('expanded');
       document.querySelectorAll('[data-demo-card]').forEach(x=>x.classList.remove('expanded'));
       if(!open) card.classList.add('expanded');

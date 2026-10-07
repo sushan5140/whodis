@@ -25,7 +25,7 @@ function scoreFor(person){
 }
 function opener(person,oi){
   const focus=oi[0] || person.interests[0];
-  const project=person.projects[0];
+  const project=person.projects[0] || person.interests[0];
   return `“I saw you're working around ${focus}. I’m exploring a related direction — especially how it connects to ${project.toLowerCase()}. What part has been hardest to make reliable?”`;
 }
 function collab(person,oi){
@@ -41,16 +41,16 @@ function renderResult(person, faceMeta=null){
   $('resultPanel').innerHTML=`
     <div class="result-top">
       <div class="avatar">${person.initials}</div>
-      <div><h2>${person.name}</h2><p>${person.role} · ${person.org}</p>${faceLine}</div>
+      <div><h2>${person.name}</h2><p>${person.role} · ${person.org || 'whodis event'}</p>${faceLine}</div>
       <div class="score"><b>${m.score}%</b><small>useful overlap</small></div>
     </div>
     <div class="brief">
-      <div class="brief-card"><label>SHARED CONTEXT</label><div class="tags">${(m.oi.length?m.oi:['adjacent AI interests']).map(x=>`<span class="tag">${x}</span>`).join('')}</div></div>
-      <div class="brief-card"><label>THEY'RE LOOKING FOR</label><div class="tags">${person.goals.map(x=>`<span class="tag">${x}</span>`).join('')}</div></div>
+      <div class="brief-card"><label>SHARED CONTEXT</label><div class="tags">${(m.oi.length?m.oi:['adjacent interests']).map(x=>`<span class="tag">${x}</span>`).join('')}</div></div>
+      <div class="brief-card"><label>THEY'RE LOOKING FOR</label><div class="tags">${(person.goals||[]).map(x=>`<span class="tag">${x}</span>`).join('')}</div></div>
       <div class="brief-card wide"><label>WHY YOU SHOULD TALK</label><p>${collab(person,m.oi)}</p></div>
       <div class="brief-card wide"><label>BEST OPENER</label><p>${opener(person,m.oi)}</p></div>
-      <div class="brief-card"><label>THEIR PROJECTS</label><p>${person.projects.join(' · ')}</p></div>
-      <div class="brief-card"><label>OPTED-IN LINKS</label><p>${person.links.join(' · ')}</p></div>
+      <div class="brief-card"><label>THEIR PROJECTS</label><p>${(person.projects||[]).join(' · ') || 'No projects added yet'}</p></div>
+      <div class="brief-card"><label>OPTED-IN LINKS</label><p>${(person.links||['Event profile']).join(' · ')}</p></div>
     </div>`;
   $('workspace').scrollIntoView({behavior:'smooth'});
 }
@@ -72,6 +72,8 @@ function loadScannerConfig(){
   const cfg=JSON.parse(localStorage.getItem('whodis-scan-config')||'null');
   if(cfg?.faceApi)$('faceApi').value=cfg.faceApi;
   if(cfg?.eventId)$('eventId').value=cfg.eventId;
+  $('joinFaceApi').value=$('faceApi').value;
+  $('joinEventId').value=$('eventId').value;
 }
 async function captureFrameBlob(){
   const video=$('video');
@@ -104,6 +106,12 @@ async function matchFace(){
     }
     const person=attendees.find(x=>x.code===String(data.attendee_id).toUpperCase());
     if(!person){
+      const local=JSON.parse(localStorage.getItem(`whodis-attendee-${eventId()}-${data.attendee_id}`)||'null');
+      if(local){
+        $('scanStatus').textContent='matched. ohhh, whodis.';
+        renderResult(local,{distance:data.distance,threshold:data.threshold});
+        return;
+      }
       $('scanStatus').textContent=`Matched ${data.display_name || data.attendee_id}, but no local profile card exists yet`;
       return;
     }
@@ -117,7 +125,70 @@ async function matchFace(){
   }
 }
 
+function initialsFromName(name){
+  return name.trim().split(/\s+/).slice(0,2).map(x=>x[0]?.toUpperCase()||'').join('') || '?';
+}
+function slugId(name){
+  const core=name.trim().toUpperCase().replace(/[^A-Z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24) || 'ATTENDEE';
+  return `WD-${core}`;
+}
+function joinApiBase(){return $('joinFaceApi').value.trim().replace(/\/$/,'')}
+function joinEventId(){return $('joinEventId').value.trim() || 'demo-event'}
+function joinProfile(){
+  const name=$('joinName').value.trim();
+  const roleRaw=$('joinRole').value.trim();
+  const [role,...orgParts]=roleRaw.split('·').map(x=>x.trim());
+  return {
+    code: slugId(name),
+    name,
+    initials: initialsFromName(name),
+    role: role || 'Event attendee',
+    org: orgParts.join(' · ') || 'whodis event',
+    interests:$('joinInterests').value.split(',').map(x=>x.trim()).filter(Boolean),
+    goals:$('joinGoals').value.split(',').map(x=>x.trim()).filter(Boolean),
+    projects:$('joinProjects').value.split(',').map(x=>x.trim()).filter(Boolean),
+    links:['Event profile']
+  };
+}
+function refreshJoinPreview(){
+  const p=joinProfile();
+  $('joinAvatar').textContent=p.initials;
+  $('joinPreviewName').textContent=p.name || 'your profile card';
+  $('joinPreviewRole').textContent=`${p.role} · ${p.org}`;
+  $('joinPreviewTags').innerHTML=p.interests.slice(0,4).map(x=>`<span class="tag">${x}</span>`).join('');
+}
+async function enrollAttendee(){
+  const p=joinProfile();
+  const photo=$('joinPhoto').files[0];
+  if(!p.name){$('joinStatus').textContent='add your name first';return}
+  if(!$('joinConsent').checked){$('joinStatus').textContent='consent is required';return}
+  if(!photo){$('joinStatus').textContent='choose or take a selfie';return}
+  $('enrollBtn').disabled=true;
+  $('joinStatus').textContent='creating face embedding…';
+  try{
+    const form=new FormData();
+    form.append('attendee_id',p.code);
+    form.append('display_name',p.name);
+    form.append('consent','true');
+    form.append('photo',photo);
+    const response=await fetch(`${joinApiBase()}/events/${encodeURIComponent(joinEventId())}/enroll`,{method:'POST',body:form});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.detail || `Enrollment failed (${response.status})`);
+    localStorage.setItem(`whodis-attendee-${joinEventId()}-${p.code}`,JSON.stringify(p));
+    localStorage.setItem('whodis-scan-config',JSON.stringify({faceApi:joinApiBase(),eventId:joinEventId()}));
+    $('faceApi').value=joinApiBase();
+    $('eventId').value=joinEventId();
+    $('joinStatus').textContent=`enrolled as ${p.code} · you're discoverable in this event`;
+  }catch(err){
+    $('joinStatus').textContent=err.message || 'enrollment failed';
+  }finally{
+    $('enrollBtn').disabled=false;
+  }
+}
+
 $('openScanner').onclick=()=>{$('workspace').classList.remove('hidden');$('workspace').scrollIntoView({behavior:'smooth'})};
+$('openJoin').onclick=()=>{$('joinPanel').classList.remove('hidden');$('joinPanel').scrollIntoView({behavior:'smooth'})};
+$('closeJoin').onclick=()=>$('joinPanel').classList.add('hidden');
 $('openDirectory').onclick=()=>{$('directory').classList.remove('hidden');$('directory').scrollIntoView({behavior:'smooth'})};
 $('closeWorkspace').onclick=()=>{stopCamera();$('workspace').classList.add('hidden')};
 $('closeDirectory').onclick=()=>$('directory').classList.add('hidden');
@@ -128,6 +199,8 @@ $('startCamera').onclick=startCamera;
 $('faceMatch').onclick=matchFace;
 $('faceApi').addEventListener('change',saveScannerConfig);
 $('eventId').addEventListener('change',saveScannerConfig);
+$('enrollBtn').onclick=enrollAttendee;
+['joinName','joinRole','joinInterests','joinGoals','joinProjects'].forEach(id=>$(id).addEventListener('input',refreshJoinPreview));
 $('saveMe').onclick=()=>{
   const data={name:$('meName').value,role:$('meRole').value,interests:$('meInterests').value.split(',').map(x=>x.trim()),goals:$('meGoals').value.split(',').map(x=>x.trim())};
   localStorage.setItem('whodis-me',JSON.stringify(data)); $('savedStatus').textContent='Updated'; setTimeout(()=>$('savedStatus').textContent='Saved locally',1200);
@@ -156,4 +229,4 @@ function stopCamera(){
   $('faceMatch').disabled=true;
   $('scanStatus').textContent='Camera off';
 }
-renderDirectory();loadMe();loadScannerConfig();
+renderDirectory();loadMe();loadScannerConfig();refreshJoinPreview();

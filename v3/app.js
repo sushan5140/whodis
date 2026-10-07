@@ -304,3 +304,38 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
     });
   });
 })();
+
+/* bold color world section sync */
+(() => {
+  const sections=[
+    ['workspace','2'],
+    ['directory','0'],
+    ['profile','1']
+  ];
+  const setTheme=t=>{document.body.dataset.demoTheme=t};
+
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const hit=sections.find(([id])=>id===entry.target.id);
+        if(hit) setTheme(hit[1]);
+      });
+    },{threshold:.45});
+    sections.forEach(([id])=>{
+      const el=document.getElementById(id);
+      if(el) io.observe(el);
+    });
+  }
+
+  const home=document.getElementById('home');
+  if(home){
+    const hero=home.querySelector('.hero-v2');
+    if(hero && 'IntersectionObserver' in window){
+      const heroIo=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{if(entry.isIntersecting)setTheme('0')});
+      },{threshold:.5});
+      heroIo.observe(hero);
+    }
+  }
+})();

@@ -311,3 +311,144 @@ main{max-width:1460px;margin:0 auto;padding:26px 34px 90px}.hero{display:grid!im
   .intel-live{grid-template-columns:1fr}
   .moment-card{grid-column:1}
 }
+
+
+/* V9.2 — cohesion pass: tighter rhythm, muted terracotta, unified Event Intel */
+:root{
+  --red:#c9684d;
+  --red-soft:#ead0c6;
+  --warm-charcoal:#211f1b;
+  --warm-charcoal-2:#28251f;
+}
+
+/* pull the continuation up so the page doesn't visually drop after hero */
+.continuation{
+  margin-top:24px!important;
+  padding-top:0!important;
+}
+.continuation-head{
+  margin-bottom:14px!important;
+}
+.eyebrow-soft{
+  color:var(--red)!important;
+}
+.live-steps{
+  gap:8px!important;
+}
+.live-step{
+  min-height:176px!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.5)!important;
+}
+.done-dot{
+  background:var(--red-soft)!important;
+  color:var(--red)!important;
+}
+
+/* warmer, quieter action accent */
+.open-person,
+#wdEventLauncher .wd-action.master{
+  background:var(--red)!important;
+  border-color:var(--red)!important;
+}
+.open-person:hover,
+#wdEventLauncher .wd-action.master:hover{
+  background:#b95d44!important;
+  border-color:#b95d44!important;
+}
+
+/* unified Event Intel — one intentional warm-dark world */
+.intel-canvas{
+  margin-top:72px!important;
+  background:var(--warm-charcoal)!important;
+  border-radius:22px 22px 0 0!important;
+  padding:28px 28px 20px!important;
+  min-height:360px!important;
+}
+.intel-canvas:after{
+  width:260px!important;
+  height:260px!important;
+  right:-60px!important;
+  bottom:-120px!important;
+  background:radial-gradient(circle,rgba(201,104,77,.14),transparent 70%)!important;
+}
+.intel-copy p{
+  color:#b8b2a8!important;
+}
+.intel-actions-copy{
+  display:none!important;
+}
+.agenda-card,
+.priority-card,
+.moment-card{
+  background:var(--warm-charcoal-2)!important;
+  border-color:rgba(245,242,235,.09)!important;
+}
+.agenda-row.active b,
+.moment-card b,
+.priority-card em{
+  color:#d98a72!important;
+}
+.agenda-row.active i{
+  background:var(--red)!important;
+}
+
+/* merge the old feature launcher into Event Intel instead of a second dumped block */
+#wdEventLauncher{
+  margin-top:0!important;
+  background:var(--warm-charcoal)!important;
+  border:0!important;
+  border-top:1px solid rgba(245,242,235,.08)!important;
+  border-radius:0 0 22px 22px!important;
+  padding:14px 28px 24px!important;
+}
+#wdEventLauncher .wd-next-head{
+  display:none!important;
+}
+#wdEventLauncher .wd-actions{
+  display:flex!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+}
+#wdEventLauncher .wd-action{
+  min-height:40px!important;
+  border-radius:10px!important;
+  padding:0 13px!important;
+  background:#2b2822!important;
+  color:#f4efe6!important;
+  border:1px solid rgba(245,242,235,.11)!important;
+  font-size:10px!important;
+}
+#wdEventLauncher .wd-action.master{
+  color:white!important;
+}
+#wdEventLauncher .wd-action:hover{
+  background:#312d27!important;
+}
+
+/* remove any visual dead zone between intel canvas and launcher */
+.intel-canvas + #wdEventLauncher{
+  margin-top:0!important;
+}
+
+/* make the transition after hero feel deliberate, not empty */
+.hero + .continuation{
+  margin-top:18px!important;
+}
+
+/* a little warmer hover language */
+@media(hover:hover) and (pointer:fine){
+  .live-step:hover{
+    border-color:rgba(201,104,77,.18)!important;
+    box-shadow:0 14px 30px rgba(61,49,38,.055)!important;
+  }
+  .live-step:hover>b{
+    color:var(--red)!important;
+  }
+}
+
+@media(max-width:900px){
+  .continuation{margin-top:18px!important}
+  .intel-canvas{margin-top:56px!important;padding:20px!important}
+  #wdEventLauncher{padding:12px 20px 20px!important}
+}

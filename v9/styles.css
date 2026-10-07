@@ -727,3 +727,79 @@ main{max-width:1460px;margin:0 auto;padding:26px 34px 90px}.hero{display:grid!im
     font-size:32px!important;
   }
 }
+
+
+/* V9.5 — one signal sheet, not four imported boxes */
+.signal-form .form-grid{
+  display:none!important;
+}
+.signal-sheet{
+  border:1px solid rgba(23,24,23,.09);
+  border-radius:14px;
+  overflow:hidden;
+  background:#f7f4ed;
+}
+.signal-row{
+  margin:0;
+}
+.signal-row.split{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  border-bottom:1px solid rgba(23,24,23,.09);
+}
+.signal-row.split label{
+  min-width:0;
+  padding:12px 13px 10px;
+}
+.signal-row.split label:first-child{
+  border-right:1px solid rgba(23,24,23,.09);
+}
+.signal-row.full{
+  display:block;
+  padding:12px 13px 10px;
+  border-bottom:1px solid rgba(23,24,23,.09);
+}
+.signal-row.full:last-child{
+  border-bottom:0;
+}
+.signal-sheet label>span{
+  display:block;
+  margin-bottom:5px;
+  color:#969892;
+  font-size:8px;
+  line-height:1;
+}
+.signal-sheet input{
+  width:100%;
+  height:auto!important;
+  padding:0!important;
+  border:0!important;
+  outline:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:var(--ink)!important;
+  box-shadow:none!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.signal-sheet input:focus{
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+.signal-row:focus-within,
+.signal-row.split label:focus-within{
+  background:#fbfaf6;
+}
+.signal-save{
+  margin-top:10px!important;
+}
+@media(max-width:620px){
+  .signal-row.split{
+    grid-template-columns:1fr;
+  }
+  .signal-row.split label:first-child{
+    border-right:0;
+    border-bottom:1px solid rgba(23,24,23,.09);
+  }
+}

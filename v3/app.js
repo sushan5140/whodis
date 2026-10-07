@@ -251,3 +251,56 @@ renderDirectory(); loadMe(); loadScannerConfig(); refreshJoinPreview();
     revealTargets.forEach(el=>io.observe(el));
   }
 })();
+
+/* V3 reactive colors */
+(() => {
+  const body=document.body;
+  body.dataset.demoTheme='0';
+
+  document.querySelectorAll('[data-demo]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      body.dataset.demoTheme=btn.dataset.demo;
+      const stage=document.querySelector('.hero-v2-right');
+      stage?.classList.add('color-burst');
+      setTimeout(()=>stage?.classList.remove('color-burst'),260);
+    });
+  });
+
+  document.querySelectorAll('[data-quick-action]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      document.querySelectorAll('[data-quick-action]').forEach(x=>x.classList.remove('active-color'));
+      card.classList.add('active-color');
+      setTimeout(()=>card.classList.remove('active-color'),700);
+    });
+  });
+
+  document.addEventListener('click',e=>{
+    const card=e.target.closest('.person-card');
+    if(card){
+      document.querySelectorAll('.person-card').forEach(x=>x.classList.remove('selected-color'));
+      card.classList.add('selected-color');
+    }
+  });
+
+  const sectionTargets=[document.querySelector('#workspace'),document.querySelector('#directory'),document.querySelector('#profile')].filter(Boolean);
+  const popSection=el=>{
+    el.classList.add('section-color-pop');
+    setTimeout(()=>el.classList.remove('section-color-pop'),900);
+  };
+
+  const originalRender=window.renderResult;
+  if(typeof originalRender==='function'){
+    window.renderResult=function(...args){
+      const out=originalRender.apply(this,args);
+      setTimeout(()=>{const w=document.querySelector('#workspace');if(w)popSection(w)},60);
+      return out;
+    };
+  }
+
+  document.querySelectorAll('.rail-link,.mobile-nav-item').forEach((el,idx)=>{
+    el.addEventListener('click',()=>{
+      const themes=['0','1','2'];
+      body.dataset.demoTheme=themes[idx%themes.length];
+    });
+  });
+})();

@@ -714,3 +714,85 @@ body[data-demo-theme="1"] .quick-card[data-quick-action="move"].active-color{
   .intel-intro{padding:54px 18px 24px!important;margin-top:64px}
   #wdEventLauncher{padding:24px 18px 30px!important}
 }
+
+
+/* Fix: make section color worlds visibly own the whole surface */
+body[data-section-theme="workspace"] #workspace{
+  background:#65e6ff!important;
+  color:#081217!important;
+  border-color:#65e6ff!important;
+}
+body[data-section-theme="workspace"] #workspace .scan-panel,
+body[data-section-theme="workspace"] #workspace .result-panel{
+  background:#dffaff!important;
+  color:#081217!important;
+  border-color:rgba(8,18,23,.14)!important;
+}
+body[data-section-theme="workspace"] #workspace .section-kicker,
+body[data-section-theme="workspace"] #workspace p,
+body[data-section-theme="workspace"] #workspace label{
+  color:#31515a!important;
+}
+
+body[data-section-theme="directory"] #directory{
+  background:#f1f04a!important;
+  color:#12130f!important;
+  border-color:#f1f04a!important;
+}
+body[data-section-theme="directory"] #directory .person-card{
+  background:#fffbd0!important;
+  color:#12130f!important;
+  border-color:rgba(18,19,15,.14)!important;
+}
+body[data-section-theme="directory"] #directory .person-card p,
+body[data-section-theme="directory"] #directory .section-kicker{
+  color:#5e5b2d!important;
+}
+
+body[data-section-theme="profile"] #profile{
+  background:#ff86b8!important;
+  color:#170f17!important;
+  border-color:#ff86b8!important;
+}
+body[data-section-theme="profile"] #profile .profile-form{
+  background:#fff0f7!important;
+  border-color:rgba(23,15,23,.14)!important;
+}
+body[data-section-theme="profile"] #profile input{
+  background:#fff!important;
+  color:#170f17!important;
+  border-color:rgba(23,15,23,.14)!important;
+}
+body[data-section-theme="profile"] #profile .section-kicker,
+body[data-section-theme="profile"] #profile p,
+body[data-section-theme="profile"] #profile label{
+  color:#6f3652!important;
+}
+body[data-section-theme="profile"] #profile .cta-primary{
+  background:#170f17!important;
+  color:#ff86b8!important;
+  border-color:#170f17!important;
+}
+body[data-section-theme="profile"] #profile .saved{
+  background:rgba(255,255,255,.35)!important;
+  color:#6f3652!important;
+  border-color:rgba(23,15,23,.12)!important;
+}
+
+body[data-section-theme="intel"] .intel-intro,
+body[data-section-theme="intel"] #wdEventLauncher{
+  background:#b4ff69!important;
+  color:#10170a!important;
+}
+body[data-section-theme="intel"] .intel-intro p,
+body[data-section-theme="intel"] .intel-intro .section-kicker{
+  color:#48672b!important;
+}
+
+@media(max-width:820px){
+  body[data-section-theme="workspace"] #workspace,
+  body[data-section-theme="directory"] #directory,
+  body[data-section-theme="profile"] #profile{
+    border-radius:22px!important;
+  }
+}

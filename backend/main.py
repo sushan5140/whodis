@@ -5,8 +5,6 @@ import tempfile
 from typing import Any
 
 import numpy as np
-from deepface import DeepFace
-from deepface.modules import verification
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,6 +14,7 @@ MODEL_NAME = os.getenv("WHODIS_FACE_MODEL", "ArcFace")
 DETECTOR_BACKEND = os.getenv("WHODIS_DETECTOR", "retinaface")
 DISTANCE_METRIC = os.getenv("WHODIS_DISTANCE_METRIC", "cosine")
 store = build_store()
+_deepface = None
 
 app = FastAPI(title="whodis face service", version="0.3.0")
 app.add_middleware(
@@ -47,7 +46,16 @@ def _public_profile(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _get_deepface():
+    global _deepface
+    if _deepface is None:
+        from deepface import DeepFace
+        _deepface = DeepFace
+    return _deepface
+
+
 def _embedding_from_bytes(raw: bytes) -> list[float]:
+    DeepFace = _get_deepface()
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as f:
         f.write(raw)
         f.flush()
@@ -93,7 +101,6 @@ def _threshold() -> float:
     override = os.getenv("WHODIS_MATCH_THRESHOLD")
     if override:
         return float(override)
-    # Keep health/startup lightweight. Tune this explicitly per deployed model/event set.
     return 0.68
 
 

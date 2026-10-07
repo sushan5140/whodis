@@ -12,6 +12,16 @@ Privacy-first networking assistant for conferences and meetups.
 - Contextual conversation opener generation
 - Responsive desktop/mobile UI
 - Local-only persistence via `localStorage`
+- Modular next-move hub after an attendee match
+- **Get In** master plan: direct, value, warm-path, timing, and relationship moves
+- **Before I Say Hi** context-aware conversation prep
+- **Door In** value-first contribution ideas
+- **Six Degrees** warm-path planning from real public/shared context
+- **Reply Window** transparent outreach-timing guidance
+- **Met U** local-only relationship memory
+- **Orbit** explicit local watchlist
+- **Room Intel** public event-board triage
+- **Who2Meet** top-3 pre-event shortlist
 
 ## Run
 Serve this folder over localhost (camera access usually requires HTTPS or localhost):
@@ -33,3 +43,5 @@ Then open `http://localhost:8080`.
 
 ## Privacy rule
 This prototype intentionally does not identify arbitrary people from covert photographs or scrape private identity data.
+
+Networking actions are built around opted-in profile data, public event context, or information the user deliberately supplies. Warm-path features do not invent mutual connections, Orbit is explicit opt-in tracking by the user, and the current MVP does not pretend to have live public-activity monitoring when no connector is configured.

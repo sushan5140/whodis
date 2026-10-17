@@ -126,9 +126,9 @@
         <div class="scan-panel">
           <div class="scanner-box"><video id="video" playsinline></video><canvas id="captureCanvas" class="hidden"></canvas><div class="scanner-frame"><i></i><i></i><i></i><i></i></div><div class="scan-status" id="scanStatus">camera off</div></div>
           <div class="scan-actions"><button id="startCamera" class="cta cta-primary">Start camera</button><button id="faceMatch" class="cta cta-soft" disabled>Who dis?</button><button id="stopCamera" class="cta cta-ghost">Stop</button></div>
-          <details class="scanner-details"><summary>Scanner setup</summary><div class="face-config"><label>Event ID<input id="eventId" value="demo-event"/></label><label>Face API<input id="faceApi" value="https://whodis-api.onrender.com"/></label></div></details>
+          <details class="scanner-details"><summary>Scanner setup</summary><div class="face-config"><label>Event ID<input id="eventId" value="demo-event"/></label><input id="faceApi" type="hidden" value=""/></div></details>
           <div class="badge-fallback"><span>No camera? Use a demo badge.</span><div class="code-row"><input id="badgeCode" placeholder="WD-MINJUN"/><button id="findBadge" class="mini-action">Find</button></div></div>
-          <p class="tiny">Matching is limited to consented attendees in the selected event.</p>
+          <p class="tiny">Cloud profiles use Supabase. Facial matching is disabled during the privacy and security migration.</p>
         </div>
         <div class="result-panel" id="resultPanel"><div class="empty-state"><div class="empty-radar"><span></span></div><p class="section-kicker">Waiting for signal</p><h3>No one selected yet.</h3><p>Scan an opted-in attendee and WhoDis turns the match into context + a next move.</p></div></div>
       </div>

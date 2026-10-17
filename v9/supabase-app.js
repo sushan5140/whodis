@@ -25,7 +25,7 @@
   notice(user?"Signed in: "+user.email:"Sign in to join an event and view opted-in profiles.");
   if(user)await loadOwn();
  }
- async function member(){const {error}=await state.client.from("whodis_members").upsert({event_id:event(),user_id:state.user.id},{onConflict:"event_id,user_id"});if(error)throw error}
+ async function member(){const {error}=await state.client.from("whodis_members").insert({event_id:event(),user_id:state.user.id});if(error && error.code!=="23505")throw error}
  async function loadOwn(){
   const {data,error}=await state.client.from("whodis_profiles").select("*").eq("event_id",event()).eq("user_id",state.user.id).maybeSingle();
   if(error){notice(error.message);return}
@@ -56,7 +56,7 @@
    await member();
    const {data,error}=await state.client.from("whodis_profiles").select("attendee_id,display_name,initials,role,org,interests,goals,projects,links").eq("event_id",event()).eq("consent",true).limit(100);
    if(error)throw error;
-   const list=(data||[]).map(p=>({code:p.attendee_id,name:p.display_name,initials:p.initials,role:p.role,org:p.org,interests:p.interests,goals:p.goals,projects:p.projects,links:p.links}));
+   const list=(data||[]).map(p=>({code:p.attendee_id,name:escape(p.display_name),initials:escape(p.initials),role:escape(p.role),org:escape(p.org),interests:(p.interests||[]).map(escape),goals:(p.goals||[]).map(escape),projects:(p.projects||[]).map(escape),links:(p.links||[]).map(escape)}));
    if(typeof renderDirectory==="function")renderDirectory(list);
    el("directory")?.classList.remove("hidden");el("directory")?.scrollIntoView({behavior:"smooth"});
    notice(list.length+" opted-in profiles available in this event.");

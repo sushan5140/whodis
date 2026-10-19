@@ -47,7 +47,7 @@ function renderResult(person, faceMeta=null){
       <div class="brief-card wide"><label>WHY YOU SHOULD TALK</label><p>${collab(person,m.oi)}</p></div>
       <div class="brief-card wide"><label>BEST OPENER</label><p>${opener(person,m.oi)}</p></div>
       <div class="brief-card"><label>THEIR PROJECTS</label><p>${(person.projects||[]).join(' · ') || 'No projects added yet'}</p></div>
-      <div class="brief-card"><label>OPTED-IN LINKS</label><p>${(person.links||['Event profile']).join(' · ')}</p></div>
+      <div class="brief-card"><label>OPTED-IN LINKS</label><p>${(person.links||['Event profile']).map(v=>{const s=String(v||'');let u;try{u=new URL(s)}catch{return s.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}if(u.protocol!=='https:')return '';const e=t=>t.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));return `<a href="${e(u.href)}" target="_blank" rel="noopener noreferrer">${e(u.hostname)}</a>`}).join(' · ')}</p></div>
     </div>`;
   $('workspace').scrollIntoView({behavior:'smooth'});
 }
